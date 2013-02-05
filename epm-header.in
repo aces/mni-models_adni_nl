@@ -1,0 +1,10 @@
+%product mni-models_adni-nl
+%copyright 2012-2013 Louis Collins
+%vendor McConnell Brain Imaging Centre
+%packager Claude Lepage <claude@bic.mni.mcgill.ca>
+%license COPYING
+%readme README
+%description mni-models non-linear asymmetric ADNI T1
+%version @VERSION@
+%requires minc
+%requires mni-autoreg
