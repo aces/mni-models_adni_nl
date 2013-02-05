@@ -5,6 +5,7 @@ MNI_MODELS := mni-models
 
 # mess with the data install directory
 pkgdatadir = $(prefix)/share/$(MNI_MODELS)
+tagdir = $(prefix)/share/classify-ADNI
 
 MODEL_BASE := mni_adni
 PRIM_MODAL := t1w_tal_nlin_asym
@@ -20,13 +21,12 @@ dist_pkgdata_DATA := \
 	$(MODEL_BASE)_$(PRIM_MODAL)_mask.obj.gz \
 	$(MODEL_BASE)_$(PRIM_MODAL)_headmask.mnc.gz \
         $(MODEL_BASE)_$(PRIM_MODAL)_vent.mnc.gz \
-        $(MODEL_BASE)_$(PRIM_MODAL)_vent.obj.gz
+        $(MODEL_BASE)_$(PRIM_MODAL)_vent.obj.gz \
+        Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc
 
-## mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag
-## mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag
-## 
-## Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc
-
+tag_DATA := \
+	mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag \
+	mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag
 
 # installed data data
 pkgdata_DATA := \
@@ -49,16 +49,14 @@ pkgdata_DATA := \
 	$(MODELS:=_8_mask.mnc)
 
 EXTRA_DIST = $(m4_files) \
-	epm-header.in \
-        mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag \
-        mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag \
-        Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc
+	$(tag_DATA) \
+	epm-header.in
 
 m4_files = local_m4/ac_prog_gzip.m4 \
 	local_m4/ac_prog_make_model.m4
 
 # be tidy
-CLEANFILES = $(pkgdata_DATA) $(MODELS:=.mnc)
+CLEANFILES = $(pkgdata_DATA) $(tag_DATA) $(MODELS:=.mnc)
 
 # gunzip rule
 %: %.gz
@@ -76,15 +74,15 @@ all: $(dist_pkgdata_DATA:.gz=) $(DATE)
 				ln -s $(MODEL_BASE)_$(PRIM_MODAL)_$$m.mnc $$i\_$$m.mnc; \
 			fi \
 		done; \
-      $(make_model) $$i; \
+      		$(make_model) $$i; \
 	done
 	for i in $(pkgdata_DATA); \
-   do \
-      echo "Adding mni-model header to $$i"; \
-      minc_modify_header \
+   	do \
+      		echo "Adding mni-model header to $$i"; \
+      		minc_modify_header \
 			-sinsert mni-model:package=$(PACKAGE) \
 			-sinsert mni-model:version=$(VERSION) \
 			-sinsert mni-model:compile-date=$(DATE_STAMP) \
 			-sinsert mni-model:compile-user=$$USER \
 			$$i; \
-   done
+   	done
