@@ -1,0 +1,11 @@
+MNI Transform File
+%Fri Jul  5 13:35:19 2013>>> minctracc -clobber -nonlinear corrcoeff -stiffness 0.962962 -iterations 20 -step 2 2 2 -similarity 0.2 -weight 0.75 -sub_lattice 6 -lattice_diam 6 6 6 -transformation /tmp/best1stepnlreg.pl-sB166aoV/Smodel_t1w_sym_hires_5.xfm -source_mask model_t1w_sym_hires_mask.mnc -model_mask /sdata/claude/bigbrain-mni/icbm2009b/mni_icbm152_mask_tal_nlin_sym_09b_hires.mnc /tmp/best1stepnlreg.pl-sB166aoV/Smodel_t1w_sym_hires_2_blur.mnc /tmp/best1stepnlreg.pl-sB166aoV/Tmni_icbm152_t1_tal_nlin_sym_09b_hires_2_blur.mnc total_sym.xfm
+%(Package mni_autoreg 0.99.6, compiled by @zealous.cbrain.mcgill.ca (x86_64-unknown-linux-gnu) on Mon Feb 25 13:12:41 EST 2013)
+
+Transform_Type = Linear;
+Linear_Transform =
+ 0.991889178752899 0.000982255325652659 3.82404141419102e-05 0.0768200755119324
+ 0.000818426604382694 0.997877597808838 0.0223838742822409 1.60438752174377
+ -0.000965920102316886 -0.0543423593044281 0.982159376144409 -1.28949224948883;
+Transform_Type = Grid_Transform;
+Displacement_Volume = hi_to_icbm152_2009b_grid_0.mnc;

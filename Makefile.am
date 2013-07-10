@@ -8,8 +8,9 @@ pkgdatadir = $(prefix)/share/$(MNI_MODELS)
 tagdir = $(prefix)/share/classify-ADNI
 
 MODEL_BASE := mni_adni
-PRIM_MODAL := t1w_tal_nlin_asym
-MODELS := $(MODEL_BASE)_$(PRIM_MODAL)
+ASYM_MODEL := t1w_tal_nlin_asym
+SYM_MODEL := hi_t1w_tal_nlin_sym
+MODELS := $(MODEL_BASE)_$(ASYM_MODEL) $(MODEL_BASE)_$(SYM_MODEL)
 
 # datestamp
 DATE_STAMP := `date +%D-%T`
@@ -17,16 +18,28 @@ DATE_STAMP := `date +%D-%T`
 # package data
 dist_pkgdata_DATA := \
 	$(MODELS:=.mnc.gz) \
-	$(MODEL_BASE)_$(PRIM_MODAL)_mask.mnc.gz \
-	$(MODEL_BASE)_$(PRIM_MODAL)_mask.obj.gz \
-	$(MODEL_BASE)_$(PRIM_MODAL)_headmask.mnc.gz \
-        $(MODEL_BASE)_$(PRIM_MODAL)_vent.mnc.gz \
-        $(MODEL_BASE)_$(PRIM_MODAL)_vent.obj.gz \
-        Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc
+	$(MODEL_BASE)_$(ASYM_MODEL)_mask.mnc.gz \
+	$(MODEL_BASE)_$(ASYM_MODEL)_mask.obj.gz \
+	$(MODEL_BASE)_$(ASYM_MODEL)_headmask.mnc.gz \
+        $(MODEL_BASE)_$(ASYM_MODEL)_vent.mnc.gz \
+        $(MODEL_BASE)_$(ASYM_MODEL)_vent.obj.gz \
+	$(MODEL_BASE)_$(SYM_MODEL)_mask.mnc.gz \
+	$(MODEL_BASE)_$(SYM_MODEL)_mask.obj.gz \
+	$(MODEL_BASE)_$(SYM_MODEL)_headmask.mnc.gz \
+        $(MODEL_BASE)_$(SYM_MODEL)_vent.mnc.gz \
+        $(MODEL_BASE)_$(SYM_MODEL)_vent.obj.gz \
+	mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag.gz \
+	mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag.gz \
+        mni_adni_hi_t1w_tal_nlin_sym_ntags_nobg.tag.gz \
+        mni_adni_hi_t1w_tal_nlin_sym_ntags_bg.tag.gz \
+        Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc.gz \
+        Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc.gz
 
 tag_DATA := \
 	mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag \
-	mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag
+	mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag \
+        mni_adni_hi_t1w_tal_nlin_sym_ntags_nobg.tag \
+        mni_adni_hi_t1w_tal_nlin_sym_ntags_bg.tag
 
 # installed data data
 pkgdata_DATA := \
@@ -49,14 +62,15 @@ pkgdata_DATA := \
 	$(MODELS:=_8_mask.mnc)
 
 EXTRA_DIST = $(m4_files) \
-	$(tag_DATA) \
 	epm-header.in
 
 m4_files = local_m4/ac_prog_gzip.m4 \
 	local_m4/ac_prog_make_model.m4
 
 # be tidy
-CLEANFILES = $(pkgdata_DATA) $(tag_DATA) $(MODELS:=.mnc)
+CLEANFILES = $(pkgdata_DATA) $(tag_DATA) $(MODELS:=.mnc) \
+             Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc \
+             Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc
 
 # gunzip rule
 %: %.gz
@@ -66,18 +80,11 @@ all: $(dist_pkgdata_DATA:.gz=) $(DATE)
 	for i in $(MODELS); \
 	do \
 		echo "Doing $$i"; \
-		for m in mask headmask; \
-		do \
-			echo "Checking for $$i\_$$m.mnc"; \
-			if [ ! -e $$i\_$$m.mnc ]; \
-			then \
-				ln -s $(MODEL_BASE)_$(PRIM_MODAL)_$$m.mnc $$i\_$$m.mnc; \
-			fi \
-		done; \
       		$(make_model) $$i; \
 	done
 	for i in $(pkgdata_DATA); \
    	do \
+		if [ $${i: -4} == ".mnc" ]; then \
       		echo "Adding mni-model header to $$i"; \
       		minc_modify_header \
 			-sinsert mni-model:package=$(PACKAGE) \
@@ -85,4 +92,5 @@ all: $(dist_pkgdata_DATA:.gz=) $(DATE)
 			-sinsert mni-model:compile-date=$(DATE_STAMP) \
 			-sinsert mni-model:compile-user=$$USER \
 			$$i; \
+		fi; \
    	done

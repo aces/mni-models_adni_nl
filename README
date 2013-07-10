@@ -1,5 +1,4 @@
-      MNI ADI non-linear asymmetric Average Brain
-            Stereotaxic Registration Model
+1) MNI ADI non-linear asymmetric Average Brain Stereotaxic Registration Model
 
 This is a version of the ADNI Average Brain - an average of ???
 T1-weighted MRI scans, linearly and non-linearly (?? iterations)
@@ -20,7 +19,7 @@ Package (mni_autoreg).
 	but includes non-brain tissue (eg. the CSF in the ventricles)
      mni_adni_t1w_tal_nlin_asym_headmask.mnc:
 	another mask (full head mask), required for nonlinear mode
-     icbm_avg_152_t1_tal_nlin_symmetric_VI_vent.mnc, mni_adni_t1w_tal_nlin_asym_vent.obj:
+     mni_adni_t1w_tal_nlin_asym_vent.mnc, mni_adni_t1w_tal_nlin_asym_vent.obj:
         a mask of the ventricles
      mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag:
         tag points for the background for mni_adni_t1w_tal_nlin_asym.mnc
@@ -29,13 +28,47 @@ Package (mni_autoreg).
      Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc:
         a template for the cerebellum, brain-stem, ventricles and sub-cortical
         gray to be used in the CIVET pipeline
-     make_model_obj.pl:
-        a script to generate the .obj surfaces from the .mnc volume masks.
      to_icbm152_2009a.xfm, to_icbm152_2009a_grid_0.mnc:
         a non-linear transform to map the ADNI model to the MNI-ICBM152-2009a
         model.
 
-Reference:
+2) MNI ADI non-linear symmetric Average Brain Stereotaxic Registration Model, hi-resolution
+
+This is a version of the ADNI Average Brain - an average of ???
+T1-weighted MRI scans, linearly and non-linearly (?? iterations)
+transformed to form an asymmetric model in Talairach space - that 
+is specially adapted for use with the MNI Linear Registration 
+Package (mni_autoreg). The voxel resolution of this model is 0.5mm 
+isotropic.
+
+ Included in this package are the following files:
+
+     mni_adni_hi_t1w_tal_nlin_sym.mnc:
+	a version of the average MRI that covers the whole brain
+        (unlike the original Talairach atlas), sampled with 1mm cubic
+        voxels
+     mni_adni_hi_t1w_tal_nlin_sym_mask.mnc, mni_adni_t1w_tal_nlin_asym_mask.obj:
+	a mask of the average brain in mni_adni_t1w_tal_nlin_asym.mnc.mnc,
+	semi-automatically created by Vladimir Fonov. Note that
+	this mask has had holes filled in, so it is a connected volume
+	but includes non-brain tissue (eg. the CSF in the ventricles)
+     mni_adni_hi_t1w_tal_nlin_sym_headmask.mnc:
+	another mask (full head mask), required for nonlinear mode
+     mni_adni_hi_t1w_tal_nlin_sym_vent.mnc, mni_adni_hi_t1w_tal_nlin_sym_vent.obj:
+        a mask of the ventricles
+     mni_adni_hi_t1w_tal_nlin_sym_ntags_1000_bg.tag:
+        tag points for the background for mni_adni_t1w_tal_nlin_asym.mnc
+     mni_adni_hi_t1w_tal_nlin_sym_ntags_1000_nobg.tag
+        tag points for the CSF, GM, and WM for mni_adni_t1w_tal_nlin_asym.mnc
+     Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc:
+        a template for the cerebellum, brain-stem, ventricles, sub-cortical
+        gray, hippocampus, amygdala, to be used in the CIVET pipeline
+     hi_to_icbm152_2009b.xfm, hi_to_icbm152_2009b_grid_0.mnc:
+        a non-linear transform to map the hi-res ADNI sym model to the MNI-ICBM152-2009b
+        model (warning: it's not very accurate).
+
+3) References:
+
   Fonov, V., Coupe, P., Eskildsen, S., Collins, L., and The Alzheimers’s Disease Neuroimaging Initiative (2011). 
   Atrophy specific MRI brain template for Alzheimer’s disease and Mild Cognitive Impairment. 
   Alzheimer’s Association International Conference, July 2011, France. 7 (4), pp. S58, 2011. 
