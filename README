@@ -1,4 +1,4 @@
-1) MNI ADI non-linear asymmetric Average Brain Stereotaxic Registration Model
+1) MNI ADNI non-linear asymmetric Average Brain Stereotaxic Registration Model
 
 This is a version of the ADNI Average Brain - an average of ???
 T1-weighted MRI scans, linearly and non-linearly (?? iterations)
@@ -32,7 +32,7 @@ Package (mni_autoreg).
         a non-linear transform to map the ADNI model to the MNI-ICBM152-2009a
         model.
 
-2) MNI ADI non-linear symmetric Average Brain Stereotaxic Registration Model, hi-resolution
+2) MNI ADNI non-linear symmetric Average Brain Stereotaxic Registration Model, hi-resolution
 
 This is a version of the ADNI Average Brain - an average of ???
 T1-weighted MRI scans, linearly and non-linearly (?? iterations)
@@ -58,8 +58,11 @@ isotropic.
         a mask of the ventricles
      mni_adni_hi_t1w_tal_nlin_sym_ntags_1000_bg.tag:
         tag points for the background for mni_adni_t1w_tal_nlin_asym.mnc
-     mni_adni_hi_t1w_tal_nlin_sym_ntags_1000_nobg.tag
+     mni_adni_hi_t1w_tal_nlin_sym_ntags_1000_nobg.tag:
         tag points for the CSF, GM, and WM for mni_adni_t1w_tal_nlin_asym.mnc
+     gipt_adnihisym.mnc:
+        a mask for sub-cortical gray that is used to define the sub-cortical
+        tissue class in PVE
      Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc:
         a template for the cerebellum, brain-stem, ventricles, sub-cortical
         gray, hippocampus, amygdala, to be used in the CIVET pipeline

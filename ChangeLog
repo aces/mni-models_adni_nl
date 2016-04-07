@@ -1,3 +1,7 @@
+2016-04-07  Claude Lepage <claude@bic.mni.mcgill.ca>
+
+    * Added gipt model for sub-cortical mask for pve
+
 2013-07-10  Claude Lepage <claude@bic.mni.mcgill.ca>
 
     * Added symmetric model at 0.5mm resolution.

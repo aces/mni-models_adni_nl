@@ -6,6 +6,7 @@ MNI_MODELS := mni-models
 # mess with the data install directory
 pkgdatadir = $(prefix)/share/$(MNI_MODELS)
 tagdir = $(prefix)/share/classify-ADNI
+pvedir = $(prefix)/share/pve
 
 MODEL_BASE := mni_adni
 ASYM_MODEL := t1w_tal_nlin_asym
@@ -33,13 +34,17 @@ dist_pkgdata_DATA := \
         mni_adni_hi_t1w_tal_nlin_sym_ntags_nobg.tag.gz \
         mni_adni_hi_t1w_tal_nlin_sym_ntags_bg.tag.gz \
         Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc.gz \
-        Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc.gz
+        Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc.gz \
+        gipt_adnihisym.mnc.gz
 
 tag_DATA := \
 	mni_adni_t1w_tal_nlin_asym_ntags_1000_bg.tag \
 	mni_adni_t1w_tal_nlin_asym_ntags_1000_nobg.tag \
         mni_adni_hi_t1w_tal_nlin_sym_ntags_nobg.tag \
         mni_adni_hi_t1w_tal_nlin_sym_ntags_bg.tag
+
+pve_DATA := \
+        gipt_adnihisym.mnc
 
 # installed data data
 pkgdata_DATA := \
@@ -68,7 +73,7 @@ m4_files = local_m4/ac_prog_gzip.m4 \
 	local_m4/ac_prog_make_model.m4
 
 # be tidy
-CLEANFILES = $(pkgdata_DATA) $(tag_DATA) $(MODELS:=.mnc) \
+CLEANFILES = $(pkgdata_DATA) $(tag_DATA) $(pve_DATA) $(MODELS:=.mnc) \
              Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc \
              Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc
 
