@@ -1,3 +1,7 @@
+2017-07-12  Claude Lepage <claude@bic.mni.mcgill.ca>
+
+    * Trimmed down installation (no more blurred files and .gz files)
+
 2016-04-07  Claude Lepage <claude@bic.mni.mcgill.ca>
 
     * Added gipt model for sub-cortical mask for pve

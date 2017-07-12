@@ -34,11 +34,10 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(dist_pkgdata_DATA) \
-	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/config.h.in $(srcdir)/epm-header.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	install-sh missing
+DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
+	$(srcdir)/epm-header.in $(top_srcdir)/configure AUTHORS \
+	COPYING ChangeLog INSTALL NEWS install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/local_m4/ac_prog_gzip.m4 \
 	$(top_srcdir)/local_m4/ac_prog_make_model.m4 \
@@ -58,13 +57,12 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(pkgdatadir)" \
-	"$(DESTDIR)$(pvedir)" "$(DESTDIR)$(tagdir)"
-dist_pkgdataDATA_INSTALL = $(INSTALL_DATA)
+am__installdirs = "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(pvedir)" \
+	"$(DESTDIR)$(tagdir)"
 pkgdataDATA_INSTALL = $(INSTALL_DATA)
 pveDATA_INSTALL = $(INSTALL_DATA)
 tagDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(dist_pkgdata_DATA) $(pkgdata_DATA) $(pve_DATA) $(tag_DATA)
+DATA = $(noinst_DATA) $(pkgdata_DATA) $(pve_DATA) $(tag_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -149,7 +147,7 @@ MODELS := $(MODEL_BASE)_$(ASYM_MODEL) $(MODEL_BASE)_$(SYM_MODEL)
 DATE_STAMP := `date +%D-%T`
 
 # package data
-dist_pkgdata_DATA := \
+noinst_DATA := \
 	$(MODELS:=.mnc.gz) \
 	$(MODEL_BASE)_$(ASYM_MODEL)_mask.mnc.gz \
 	$(MODEL_BASE)_$(ASYM_MODEL)_mask.obj.gz \
@@ -187,24 +185,13 @@ pkgdata_DATA := \
 	$(MODELS:=_headmask.mnc) \
 	$(MODELS:=_vent.mnc) \
 	$(MODELS:=_vent.obj) \
-	$(MODELS:=_16_blur.mnc) \
-	$(MODELS:=_16_mask.mnc) \
-	$(MODELS:=_2_blur.mnc) \
-	$(MODELS:=_2_dxyz.mnc) \
-	$(MODELS:=_2_mask.mnc) \
-	$(MODELS:=_4_blur.mnc) \
-	$(MODELS:=_4_dxyz.mnc) \
-	$(MODELS:=_4_mask.mnc) \
-	$(MODELS:=_8_blur.mnc) \
-	$(MODELS:=_8_dxyz.mnc) \
-	$(MODELS:=_8_mask.mnc)
+	Cerebellum_Ventricles_SubCortical_Mask-ADNI.mnc \
+	Cerebellum_Ventricles_SubCortical_Mask-ADNIhi.mnc
 
-EXTRA_DIST = $(m4_files) \
+EXTRA_DIST = $(noinst_DATA) $(m4_files) \
 	epm-header.in
 
-m4_files = local_m4/ac_prog_gzip.m4 \
-	local_m4/ac_prog_make_model.m4
-
+m4_files = local_m4/ac_prog_gzip.m4
 
 # be tidy
 CLEANFILES = $(pkgdata_DATA) $(tag_DATA) $(pve_DATA) $(MODELS:=.mnc) \
@@ -268,23 +255,6 @@ distclean-hdr:
 epm-header: $(top_builddir)/config.status $(srcdir)/epm-header.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 uninstall-info-am:
-install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(pkgdatadir)" || $(mkdir_p) "$(DESTDIR)$(pkgdatadir)"
-	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(dist_pkgdataDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(pkgdatadir)/$$f'"; \
-	  $(dist_pkgdataDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(pkgdatadir)/$$f"; \
-	done
-
-uninstall-dist_pkgdataDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(pkgdatadir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(pkgdatadir)/$$f"; \
-	done
 install-pkgdataDATA: $(pkgdata_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(pkgdatadir)" || $(mkdir_p) "$(DESTDIR)$(pkgdatadir)"
@@ -480,7 +450,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(pvedir)" "$(DESTDIR)$(tagdir)"; do \
+	for dir in "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(pvedir)" "$(DESTDIR)$(tagdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -527,8 +497,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_pkgdataDATA install-pkgdataDATA \
-	install-pveDATA install-tagDATA
+install-data-am: install-pkgdataDATA install-pveDATA install-tagDATA
 
 install-exec-am:
 
@@ -556,21 +525,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am \
-	uninstall-pkgdataDATA uninstall-pveDATA uninstall-tagDATA
+uninstall-am: uninstall-info-am uninstall-pkgdataDATA \
+	uninstall-pveDATA uninstall-tagDATA
 
 .PHONY: all all-am am--refresh check check-am clean clean-generic dist \
 	dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ dist-zip \
 	distcheck distclean distclean-generic distclean-hdr \
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
 	html-am info info-am install install-am install-data \
-	install-data-am install-dist_pkgdataDATA install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-pkgdataDATA install-pveDATA install-strip \
-	install-tagDATA installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
-	uninstall-dist_pkgdataDATA uninstall-info-am \
+	install-data-am install-exec install-exec-am install-info \
+	install-info-am install-man install-pkgdataDATA \
+	install-pveDATA install-strip install-tagDATA installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
+	pdf-am ps ps-am uninstall uninstall-am uninstall-info-am \
 	uninstall-pkgdataDATA uninstall-pveDATA uninstall-tagDATA
 
 
@@ -578,12 +546,7 @@ uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am \
 %: %.gz
 	$(gzip) -d -c $< > $@
 
-all: $(dist_pkgdata_DATA:.gz=) $(DATE)
-	for i in $(MODELS); \
-	do \
-		echo "Doing $$i"; \
-      		$(make_model) $$i; \
-	done
+all: $(noinst_DATA:.gz=) $(DATE)
 	for i in $(pkgdata_DATA); \
    	do \
 		if [ $${i: -4} == ".mnc" ]; then \
